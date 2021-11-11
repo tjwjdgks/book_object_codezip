@@ -11,13 +11,18 @@ public class TicketOffice {
         this.amount = amount;
         this.tickets.addAll(List.of(tickets));
     }
+
+    public void sellTicketTo(Audience audience){
+        plusAmount(audience.buy(getTicket()));
+    }
+
     public Ticket getTicket(){
         return tickets.remove(0);
     }
     public void plusAmount(long amount){
         this.amount += amount;
     }
-    public void minusAmount(long amount){
+    public void minusAmount(long amount) {
         this.amount -= amount;
     }
 
