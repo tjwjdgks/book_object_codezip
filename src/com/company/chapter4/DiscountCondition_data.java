@@ -9,46 +9,34 @@ public class DiscountCondition_data {
     private int sequence;
 
     private DayOfWeek dayOfWeek;
-    private LocalTime statTime;
+    private LocalTime startTime;
     private LocalTime endTime;
+
+    public DiscountCondition_data(DiscountConditionType_data type, int sequence, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+        this.type = type;
+        this.sequence = sequence;
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
     public DiscountConditionType_data getType() {
         return type;
     }
 
-    public void setType(DiscountConditionType_data type) {
-        this.type = type;
+    // 개선된 코드
+    public boolean isDiscountable(DayOfWeek dayOfWeek, LocalTime time){
+        if(type != DiscountConditionType_data.PERIOD)
+            throw  new IllegalArgumentException();
+        return this.dayOfWeek.equals(dayOfWeek)
+                && this.startTime.compareTo(time) <= 0
+                && this.endTime.compareTo(time) >= 0;
     }
+    // 개선된 코드
+    public boolean isDiscountable(int sequence){
+        if(type!=DiscountConditionType_data.SEQUENCE)
+            throw  new IllegalArgumentException();
 
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
-    public LocalTime getStatTime() {
-        return statTime;
-    }
-
-    public void setStatTime(LocalTime statTime) {
-        this.statTime = statTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+        return this.sequence == sequence;
     }
 }

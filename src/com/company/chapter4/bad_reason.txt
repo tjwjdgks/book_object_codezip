@@ -37,3 +37,17 @@
             ReservationAgency의 reserve 메서드의 switch 구문 case 절 추가
             새로운 할인 정책에 따라 할인 요금을 계산하기 위해 필요한 데이터 Movie에 추가
 
+
+    개선 방향
+
+        캡슐화를 지켜라
+        ex) Use_Rectangle이라는 클래스가 Rectangle_data의 getter와 setter을 호출해 데이터를 외부에서 변경하고 있다.
+        이는 인스턴스 변수의 존재 사실을 외부에 노출하고 있는 것이다. 따라서 변경에 취약하다.
+        해결방법은 캡슐화를 강화하는 것이다. Rectangle 내부에 로직을 두어서 자신의 크기를 Rectangle_data 스스로 조절할 수 있도록
+        '책임을 이동'시킨다. 객체 스스로 자신의 상태를 책임지게 한다.
+
+        영화예매시스템 개선 전 commit : 7b47919d4c170b5bd32184242f4681e56318c0c8
+
+        개선 후 이전에 비해 캡슐화, 결합도, 응집도를 개선하였다. 하지만 여전히 문제점이 존재한다.
+        일부 캡슐화가 되어 있지 않은 곳들이 보인다. ex) Movie 할인 정책 종류 등
+        DiscountCondition을 바꾸면 Movie와 Screening도 변경해야 한다(높은 결합도, 낮은 응집도도)

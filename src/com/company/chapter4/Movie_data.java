@@ -4,6 +4,7 @@ import com.company.chapter2.DiscountCondition;
 import com.company.chapter2.Money;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Movie_data {
@@ -16,59 +17,42 @@ public class Movie_data {
     private Money_data discountAmount;
     private double discountPercent;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Duration getRunningTime() {
-        return runningTime;
-    }
-
-    public void setRunningTime(Duration runningTime) {
-        this.runningTime = runningTime;
-    }
-
-    public Money_data getFee() { // ex) (1) 캡슐화 위반
-        return fee;
-    }
-
-    public void setFee(Money_data fee) {  // ex) (1) 캡슐화 위반
-        this.fee = fee;
-    }
-
-    public List<DiscountCondition_data> getDiscountConditions() {
-        return discountConditions;
-    }
-
-    public void setDiscountConditions(List<DiscountCondition_data> discountConditions) {
-        this.discountConditions = discountConditions;
-    }
-
     public MovieType_data getMovieType() {
         return movieType;
     }
 
-    public void setMovieType(MovieType_data movieType) {
-        this.movieType = movieType;
+    // 개선된 코드
+    public Money_data calculateAmountDiscountedFee(){
+        if(movieType != MovieType_data.AMOUNT_DISCOUNT)
+            throw new IllegalArgumentException();
+        return fee.minus(discountAmount);
     }
 
-    public Money_data getDiscountAmount() {
-        return discountAmount;
+    // 개선된 코드
+    public Money_data calculatePecentDiscountedFee(){
+        if(movieType != MovieType_data.PERCENT_DISCOUNT)
+            throw new IllegalArgumentException();
+
+        return fee.minus(fee.times(discountPercent));
+    }
+    // 개선된 코드
+    public Money_data calculateNoneDiscountedFee(){
+        if(movieType != MovieType_data.PERCENT_DISCOUNT)
+            throw new IllegalArgumentException();
+
+        return fee;
+    }
+    // 개선된 코드
+    public boolean isDiscountable(LocalDateTime whenScreened, int sequence){
+        for(DiscountCondition_data condition : discountConditions){
+            if(condition.getType() == DiscountConditionType_data.PERIOD){
+                if(condition.isDiscountable(whenScreened.getDayOfWeek(),whenScreened.toLocalTime())) return true;
+            }
+            else{
+                if(condition.isDiscountable(sequence)) return true;
+            }
+        }
+        return false;
     }
 
-    public void setDiscountAmount(Money_data discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
-    public double getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public void setDiscountPercent(double discountPercent) {
-        this.discountPercent = discountPercent;
-    }
 }

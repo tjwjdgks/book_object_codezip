@@ -1,5 +1,7 @@
 package com.company.chapter4;
 
+import com.company.chapter2.Money;
+
 import java.time.LocalDateTime;
 
 public class Screening_data {
@@ -9,6 +11,12 @@ public class Screening_data {
 
     public Movie_data getMovie() {
         return movie;
+    }
+
+    public Screening_data(Movie_data movie, int sequence, LocalDateTime whenScreened) {
+        this.movie = movie;
+        this.sequence = sequence;
+        this.whenScreened = whenScreened;
     }
 
     public void setMovie(Movie_data movie) {
@@ -29,5 +37,20 @@ public class Screening_data {
 
     public void setWhenScreened(LocalDateTime whenScreened) {
         this.whenScreened = whenScreened;
+    }
+    // 개선된 코드
+    public Money_data calculateFee(int audienceCount){
+        switch(movie.getMovieType()){
+            case AMOUNT_DISCOUNT:
+                if(movie.isDiscountable(whenScreened,sequence))
+                    return movie.calculateAmountDiscountedFee().times(audienceCount);
+                break;
+            case PERCENT_DISCOUNT:
+                if(movie.isDiscountable(whenScreened,sequence))
+                    return movie.calculatePecentDiscountedFee().times(audienceCount);
+            case NONE_DISCOUNT:
+                return movie.calculateNoneDiscountedFee().times(audienceCount);
+        }
+        return movie.calculateNoneDiscountedFee().times(audienceCount);
     }
 }
