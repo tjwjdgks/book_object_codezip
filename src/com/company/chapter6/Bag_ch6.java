@@ -22,8 +22,16 @@ public class Bag_ch6 {
         return ticket != null;
     }
 
-    public void setTicket(Ticket_ch6 ticket) {
-        this.ticket = ticket;
+    public Long setTicket(Ticket_ch6 ticket) {
+        if(hasInvitation()){
+            this.ticket = ticket;
+            return 0L;
+        }
+        else{
+            this.ticket = ticket;
+            minusAmount(ticket.getFee());
+            return ticket.getFee();
+        }
     }
     public void plusAmount(Long amount){
         this.amount += amount;
