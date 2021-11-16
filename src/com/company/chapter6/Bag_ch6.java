@@ -24,19 +24,24 @@ public class Bag_ch6 {
 
     public Long hold(Ticket_ch6 ticket) {
         if(hasInvitation()){
-            this.ticket = ticket;
+            setTicket(ticket);
             return 0L;
         }
         else{
-            this.ticket = ticket;
+            setTicket(ticket);
             minusAmount(ticket.getFee());
             return ticket.getFee();
         }
     }
-    public void plusAmount(Long amount){
+
+    public void setTicket(Ticket_ch6 ticket) {
+        this.ticket = ticket;
+    }
+
+    private void plusAmount(Long amount){
         this.amount += amount;
     }
-    public void minusAmount(Long amount){
+    private void minusAmount(Long amount){
         this.amount -= amount;
     }
 }
