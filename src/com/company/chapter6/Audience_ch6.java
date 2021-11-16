@@ -12,7 +12,7 @@ public class Audience_ch6 {
         return  bag;
     }
 
-    public Long setTicket(Ticket_ch6 ticket){
-        return bag.setTicket(ticket);
+    public Long buy(Ticket_ch6 ticket){
+        return bag.hold(ticket);
     }
 }

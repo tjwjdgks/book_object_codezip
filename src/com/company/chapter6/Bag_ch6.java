@@ -22,7 +22,7 @@ public class Bag_ch6 {
         return ticket != null;
     }
 
-    public Long setTicket(Ticket_ch6 ticket) {
+    public Long hold(Ticket_ch6 ticket) {
         if(hasInvitation()){
             this.ticket = ticket;
             return 0L;
