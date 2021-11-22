@@ -8,12 +8,11 @@ import java.util.List;
 
 // 세율을 부과해야 하는 변경 사항
 public class Phone {
-    private Money amount;
-    private Duration seconds;
-    private List<Call> calls = new ArrayList<>();
+    protected Money amount;
+    protected Duration seconds;
+    protected List<Call> calls = new ArrayList<>();
 
-    // 세율 추가 중복작업 1
-    private double taxRate;
+    protected double taxRate;
     public Phone(Money amount, Duration seconds, double taxRate) {
         this.amount = amount;
         this.seconds = seconds;

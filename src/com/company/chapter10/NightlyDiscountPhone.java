@@ -6,36 +6,31 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+// 상속을 통해 중복된 코드는 줄일 수 있었지만 부모 클래스와 강하게 결합됨
 // 세율을 부과해야 하는 변경 사항
-public class NightlyDiscountPhone {
+public class NightlyDiscountPhone extends Phone {
     private static final int LATE_NIGHT_HOUR  = 22;
-    private Money nightlyAmount;
-    private Money regularAmount;
-    private Duration seconds;
-    private List<Call> calls = new ArrayList<>();
 
-    // 세율 추가 중복작업 2
-    private double taxRate;
+    private Money nightlyAmount;
+
     public NightlyDiscountPhone(Money nightlyAmount, Money regularAmount, Duration seconds, double taxRate) {
+        super(regularAmount,seconds,taxRate);
         this.nightlyAmount = nightlyAmount;
-        this.regularAmount = regularAmount;
         this.seconds = seconds;
-        this.taxRate = taxRate;
     }
 
+    @Override
     public Money calculateFee(){
 
-        Money result = Money.ZERO;
+        Money result = super.calculateFee();
+        Money nightlyFee = Money.ZERO;
         for(Call call : calls){
             if(call.getFrom().getHour()>= LATE_NIGHT_HOUR){
-                result = result.plus(nightlyAmount.times(call.getDuration().getSeconds()/seconds.getSeconds()));
+                nightlyFee = nightlyFee.plus(getAmount().minus(nightlyAmount)
+                        .times(call.getDuration().getSeconds()/ getSeconds().getSeconds()));
             }
-            else{
-                result = result.plus(regularAmount.times(call.getDuration().getSeconds()/seconds.getSeconds()));
-            }
-            return result;
         }
         // 세율 계산 중복작업 2
-        return result.plus(result.times(taxRate));
+        return result.minus(nightlyFee.plus(nightlyFee.times(taxRate)));
     }
 }
