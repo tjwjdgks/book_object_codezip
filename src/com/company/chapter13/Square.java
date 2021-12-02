@@ -16,4 +16,9 @@ public class Square  extends Rectangle{
         super.setHeight(height);
         super.setWidth(height);
     }
+
+    @Override
+    public int getArea() {
+        return super.getHeight()*super.getWidth();
+    }
 }

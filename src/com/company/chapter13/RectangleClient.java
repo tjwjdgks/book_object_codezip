@@ -4,10 +4,10 @@ package com.company.chapter13;
 public class RectangleClient {
 
 
-    public void resize(Rectangle rectangle, int height, int width){
+    public void resize(RegularRectangle rectangle, int height, int width){
         rectangle.setHeight(width);
         rectangle.setWidth(height);
-        // 문제 발생
+        // 문제 발생 ==> 클라이언트에 행동에 맞춘 클래스로 변경
         assert rectangle.getHeight() == height && rectangle.getWidth() == width;
     }
 }

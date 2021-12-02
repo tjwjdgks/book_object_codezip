@@ -1,6 +1,6 @@
 package com.company.chapter13;
 
-public class Rectangle {
+public abstract class Rectangle {
     private int x,y,width,height;
 
     public Rectangle(int x, int y, int width, int height) {
@@ -25,7 +25,5 @@ public class Rectangle {
     public void setHeight(int height) {
         this.height = height;
     }
-    public int getArea(){
-        return width*height;
-    }
+    public abstract int getArea();
 }
